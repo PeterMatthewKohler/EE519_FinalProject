@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <world name="default">
+
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <scene>
+      <shadows>false</shadows>
+    </scene>
+
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose frame=''>0.319654 -0.235002 9.29441 0 1.5138 0.009599</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+
+    <physics type="ode">
+      <real_time_update_rate>1000.0</real_time_update_rate>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <ode>
+        <solver>
+          <type>quick</type>
+          <iters>150</iters>
+          <precon_iters>0</precon_iters>
+          <sor>1.400000</sor>
+          <use_dynamic_moi_rescaling>1</use_dynamic_moi_rescaling>
+        </solver>
+        <constraints>
+          <cfm>0.00001</cfm>
+          <erp>0.2</erp>
+          <contact_max_correcting_vel>2000.000000</contact_max_correcting_vel>
+          <contact_surface_layer>0.01000</contact_surface_layer>
+        </constraints>
+      </ode>
+    </physics>
+
+    <model name="turtlebot3_world">
+      <static>1</static>
+      <include>
+        <uri>model://turtlebot3_world</uri>
+      </include>
+    </model>
+
+    <model name='aruco_visual_marker_0'>
+      <include>
+        <uri>model://aruco_visual_marker_0</uri>
+      </include>
+      <pose>0 2.535 0.25 1.57 -1.57 -0</pose>
+      <scale>1 1 1</scale>
+      <link name='marker'>
+        <pose>0 2.535 0.25 1.57 -1.57 -0</pose>
+        <velocity>0 0 0 0 -0 0</velocity>
+        <acceleration>0 0 0 0 -0 0</acceleration>
+        <wrench>0 0 0 0 -0 0</wrench>
+      </link>
+      <link name='marker_pad'>
+        <pose>0 2.53501 0.25 1.57 -1.57 -0</pose>
+        <velocity>0 0 0 0 -0 0</velocity>
+        <acceleration>0 0 0 0 -0 0</acceleration>
+        <wrench>0 0 0 0 -0 0</wrench>
+      </link>
+    </model>
+
+    <model name='aruco_visual_marker_1'>
+      <include>
+        <uri>model://aruco_visual_marker_1</uri>
+      </include>
+      <pose>2.225 1.2 0.25 -1.5708 -1.5708 2.095396</pose>
+      <scale>1 1 1</scale>
+      <link name='marker'>
+        <pose>2.225 1.2 0.25 1.57 1.57 2.095</pose>
+        <velocity>0 0 0 0 -0 0</velocity>
+        <acceleration>0 0 0 0 -0 0</acceleration>
+        <wrench>0 0 0 0 -0 0</wrench>
+      </link>
+      <link name='marker_pad'>
+        <pose>2.225 1.2 0.25 1.57 1.57 2.095</pose>
+        <velocity>0 0 0 0 -0 0</velocity>
+        <acceleration>0 0 0 0 -0 0</acceleration>
+        <wrench>0 0 0 0 -0 0</wrench>
+      </link>
+    </model>
+
+    <model name='aruco_visual_marker_2'>
+      <include>
+        <uri>model://aruco_visual_marker_2</uri>
+      </include>
+      <pose>2.2 -1.25 0.25 -2.612775 -1.57 2.095</pose>
+      <scale>1 1 1</scale>
+      <link name='marker'>
+        <pose>2.2 -1.25 0.25 -2.612775 -1.57 2.095</pose>
+        <velocity>0 0 0 0 -0 0</velocity>
+        <acceleration>0 0 0 0 -0 0</acceleration>
+        <wrench>0 0 0 0 -0 0</wrench>
+      </link>
+      <link name='marker_pad'>
+        <pose>2.2 -1.25 0.25 -2.612775 -1.57 2.095</pose>
+        <velocity>0 0 0 0 -0 0</velocity>
+        <acceleration>0 0 0 0 -0 0</acceleration>
+        <wrench>0 0 0 0 -0 0</wrench>
+      </link>
+    </model>
+
+    <model name='aruco_visual_marker_3'>
+      <include>
+        <uri>model://aruco_visual_marker_3</uri>
+      </include>
+      <pose>0 -2.535 0.25 -1.57 -1.57 0</pose>
+      <scale>1 1 1</scale>
+      <link name='marker'>
+        <pose>0 -2.535 0.25 -1.57 -1.57 0</pose>
+        <velocity>0 0 0 0 -0 0</velocity>
+        <acceleration>0 0 0 0 -0 0</acceleration>
+        <wrench>0 0 0 0 -0 0</wrench>
+      </link>
+      <link name='marker_pad'>
+        <pose>0 -2.535 0.25 -1.57 -1.57 0</pose>
+        <velocity>0 0 0 0 -0 0</velocity>
+        <acceleration>0 0 0 0 -0 0</acceleration>
+        <wrench>0 0 0 0 -0 0</wrench>
+      </link>
+    </model>
+
+    <model name='aruco_visual_marker_4'>
+      <include>
+        <uri>model://aruco_visual_marker_4</uri>
+      </include>
+      <pose>-2.35 -1.0 0.25 0 -1.57 -2.60</pose>
+      <scale>1 1 1</scale>
+      <link name='marker'>
+        <pose>-2.35 -1.0 0.25 0 -1.57 -2.60</pose>
+        <velocity>0 0 0 0 -0 0</velocity>
+        <acceleration>0 0 0 0 -0 0</acceleration>
+        <wrench>0 0 0 0 -0 0</wrench>
+      </link>
+      <link name='marker_pad'>
+        <pose>-2.35 -1.0 0.25 0 -1.57 -2.60</pose>
+        <velocity>0 0 0 0 -0 0</velocity>
+        <acceleration>0 0 0 0 -0 0</acceleration>
+        <wrench>0 0 0 0 -0 0</wrench>
+      </link>
+    </model>
+
+    <model name='aruco_visual_marker_5'>
+      <include>
+        <uri>model://aruco_visual_marker_5</uri>
+      </include>
+      <pose>-2.35 1.0 0.25 -1.5708 -1.5708 -2.1</pose>
+      <scale>1 1 1</scale>
+      <link name='marker'>
+        <pose>-2.35 1.0 0.25 -1.57 0 -2.1</pose>
+        <velocity>0 0 0 0 -0 0</velocity>
+        <acceleration>0 0 0 0 -0 0</acceleration>
+        <wrench>0 0 0 0 -0 0</wrench>
+      </link>
+      <link name='marker_pad'>
+        <pose>-2.35 1.0 0.25 -1.57 0 -2.1</pose>
+        <velocity>0 0 0 0 -0 0</velocity>
+        <acceleration>0 0 0 0 -0 0</acceleration>
+        <wrench>0 0 0 0 -0 0</wrench>
+      </link>
+    </model>
+  </world>
+</sdf>
