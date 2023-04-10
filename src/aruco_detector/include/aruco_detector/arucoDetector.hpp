@@ -7,7 +7,9 @@
 #include <cv_bridge/cv_bridge.h>
 #include "sensor_msgs/image_encodings.hpp"
 #include "sensor_msgs/msg/camera_info.hpp"
+#include "fp_msgs/msg/point_rpy.hpp"
 #include <eigen3/Eigen/Dense>
+#include <tf_utils.hpp>
 
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>

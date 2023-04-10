@@ -7,6 +7,7 @@ private:
     image_transport::Subscriber sub_;
     image_transport::Publisher pub_;
     rclcpp::Subscription<sensor_msgs::msg::CameraInfo>::SharedPtr camera_info_sub_;
+    rclcpp::Publisher<fp_msgs::msg::PointRPY>::SharedPtr pointRPYPub_;
 
     void imageCallback(const sensor_msgs::msg::Image::ConstSharedPtr &msg) {
         cv_bridge::CvImagePtr cv_ptr;
@@ -51,14 +52,24 @@ private:
                         tf_camOptical2ARFrame.block<3,3>(0,0) = rotMatEigen;
                         tf_camOptical2ARFrame.block<3,1>(0,3) = translEigen;
                         tf_world2BaseFootprint = tf_orig2AR[markerIds[0]] * tf_camOptical2ARFrame.inverse() * tf_camOptical2CamRGB * tf_camRBG2CamLink * tf_camLink2BaseLink * tf_baseLink2BaseFootprint;
-                        // -----------DEBUGGING-------------
-                        std::cout << "tf world to basefootprint \n" << tf_world2BaseFootprint << "\n";
+                        // Convert to RPY
+                        auto temp = tf_world2BaseFootprint.block<3,3>(0,0);
+                        Eigen::Matrix3f tfROT = temp.cast<float>();    // Cast to float
+                        Eigen::Vector3f rpy = tf_utils::rot2EulerZYX(tfROT);
+                        // Publish data
+                        auto pointRPY = fp_msgs::msg::PointRPY();
+                        pointRPY.position.x = tf_world2BaseFootprint(0,3);
+                        pointRPY.position.y = tf_world2BaseFootprint(1,3);
+                        pointRPY.position.z = tf_world2BaseFootprint(2,3);
+                        pointRPY.roll = rpy[0];
+                        pointRPY.pitch = rpy[1];
+                        pointRPY.yaw = rpy[2];
+                        pointRPYPub_->publish(pointRPY);
                     }
                 }
             }
-            cv::imshow(OPENCV_WINDOW, outputImage);
-            cv::waitKey(3);
-
+            //cv::imshow(OPENCV_WINDOW, outputImage);
+            //cv::waitKey(3);
             pub_.publish(cv_ptr->toImageMsg());
         }
     }
@@ -141,7 +152,7 @@ public:
     ArucoDetector() : Node("aruco_detector") {
         ArucoDetector::initialize();
         // Open demo window that will show output image
-        cv::namedWindow(OPENCV_WINDOW);
+        //cv::namedWindow(OPENCV_WINDOW);
 
         rmw_qos_profile_t custom_qos = rmw_qos_profile_default;
         pub_ = image_transport::create_publisher(this, "/camera/out_image", custom_qos);
@@ -153,8 +164,8 @@ public:
                                     this, 
                                     std::placeholders::_1));
 
-//        pub = it.advertise("out_image_base_topic", 1);
-//        sub = it.subscribe("in_image_base_topic", 1, imageCallback);
+        pointRPYPub_ = this->create_publisher<fp_msgs::msg::PointRPY>("/pointRPY", 10);
+
     }
 
     ~ArucoDetector()
