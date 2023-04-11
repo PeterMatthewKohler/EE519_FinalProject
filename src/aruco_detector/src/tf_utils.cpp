@@ -1,4 +1,5 @@
 #include "tf_utils.hpp"
+#include <iostream>
 
 Eigen::Matrix3f tf_utils::rotZ(float theta) {
     Eigen::Matrix3f rot;
@@ -29,48 +30,26 @@ Eigen::Matrix3f tf_utils::rpy2Rot(float roll, float pitch, float yaw) {
 }
 
 Eigen::Vector3f tf_utils::rot2EulerZYX(Eigen::Matrix3f Rotm) {
-    float roll_p, pitch_p, yaw_p;   // positive square root
-    float roll_n, pitch_n, yaw_n;   // negative square root
-    // Check for singularity when pitch = PI/2
-    pitch_p = atan2(-Rotm(6), sqrt(pow(Rotm(0),2) + pow(Rotm(3),2)));
-    pitch_n = atan2(-Rotm(6), sqrt(pow(Rotm(0),2) + pow(Rotm(3),2)));
+    // Positive square root seems to report the correct calculation 100%(?) of the time
+    float roll, pitch, yaw;   // positive square root
 
-    if ((abs(pitch_p - (M_PI/2)) < 0.001 && pitch_p > 0) || (abs(pitch_p + (M_PI/2)) < 0.001 && pitch_p < 0)) {
-        pitch_n = pitch_p;
+    pitch = atan2(-Rotm(2,0), sqrt(pow(Rotm(2,1),2) + pow(Rotm(2,2),2)));
+    if ((abs(pitch - (M_PI/2)) < 0.001 && pitch > 0) || (abs(pitch + (M_PI/2)) < 0.001 && pitch < 0)) {
         //if pitch = pi/2, we calculate sum of roll and yaw. We consider yaw = 0
         //and calculate value of roll for this singularity.
-        yaw_p = 0;
-        yaw_n = 0;
-        if (pitch_p > 0) {
-            roll_p = atan2(Rotm(0,1), Rotm(1,1));
-            roll_n = roll_p;
+        yaw = 0;
+        if (pitch > 0) {
+            roll = atan2(Rotm(0,1), Rotm(1,1));
         }
         else {
-            roll_p = -atan2(Rotm(0,1), Rotm(1,1));
-            roll_n = roll_p;
+            roll = -atan2(Rotm(0,1), Rotm(1,1));
         }
     }
     else {
-        roll_p = atan2( (Rotm(2,1)/cos(pitch_p)), (Rotm(2,2)/cos(pitch_p)));
-        yaw_p = atan2( (Rotm(1,0)/cos(pitch_p)), (Rotm(0,0)/cos(pitch_p)));
-
-        roll_n = atan2( (Rotm(2,1)/cos(pitch_n)), (Rotm(2,2)/cos(pitch_n)));
-        yaw_n = atan2( (Rotm(1,0)/cos(pitch_n)), (Rotm(0,0)/cos(pitch_n)));
-    }
-    float roll, pitch, yaw;
-    // Pick the one whose roll is closer to 0 (IDK HOW TO PICK BETWEEN THE TWO OTHERWISE)
-    if (abs(roll_p) > abs(roll_n)) {
-        roll = roll_n;
-        pitch = pitch_n;
-        yaw = yaw_n;
-    }
-    else{
-        roll = roll_p;
-        pitch = pitch_p;
-        yaw = yaw_p;
+        roll = atan2( (Rotm(2,1)/cos(pitch)), (Rotm(2,2)/cos(pitch)));
+        yaw = atan2( (Rotm(1,0)/cos(pitch)), (Rotm(0,0)/cos(pitch)));
     }
     Eigen::Vector3f output;
     output << roll, pitch, yaw;
     return output;
-
 }
