@@ -7,7 +7,7 @@ private:
     image_transport::Subscriber sub_;
     image_transport::Publisher pub_;
     rclcpp::Subscription<sensor_msgs::msg::CameraInfo>::SharedPtr camera_info_sub_;
-    rclcpp::Publisher<fp_msgs::msg::PointRPY>::SharedPtr pointRPYPub_;
+    rclcpp::Publisher<fp_msgs::msg::SigmaID>::SharedPtr sigmaPub_;
 
     void imageCallback(const sensor_msgs::msg::Image::ConstSharedPtr &msg) {
         cv_bridge::CvImagePtr cv_ptr;
@@ -51,20 +51,22 @@ private:
                         tf_camOptical2ARFrame.setIdentity();    // Sets the bottom row to 0 0 0 1!
                         tf_camOptical2ARFrame.block<3,3>(0,0) = rotMatEigen;
                         tf_camOptical2ARFrame.block<3,1>(0,3) = translEigen;
-                        tf_world2BaseFootprint = tf_orig2AR[markerIds[0]] * tf_camOptical2ARFrame.inverse() * tf_camOptical2CamRGB * tf_camRBG2CamLink * tf_camLink2BaseLink * tf_baseLink2BaseFootprint;
+                        tf_world2BaseFootprint = tf_orig2AR[markerIds[0]] * tf_camOptical2ARFrame.inverse() * tf_camOptical2BaseFootprint;
+                        std::cout << "camOptical2ARFrame: \n" << tf_camOptical2ARFrame << "\n\n";
                         // Convert to RPY
-                        auto temp = tf_world2BaseFootprint.block<3,3>(0,0);
-                        Eigen::Matrix3f tfROT = temp.cast<float>();    // Cast to float
-                        Eigen::Vector3f rpy = tf_utils::rot2EulerZYX(tfROT);
-                        // Publish data
-                        auto pointRPY = fp_msgs::msg::PointRPY();
-                        pointRPY.position.x = tf_world2BaseFootprint(0,3);
-                        pointRPY.position.y = tf_world2BaseFootprint(1,3);
-                        pointRPY.position.z = tf_world2BaseFootprint(2,3);
-                        pointRPY.roll = rpy[0];
-                        pointRPY.pitch = rpy[1];
-                        pointRPY.yaw = rpy[2];
-                        pointRPYPub_->publish(pointRPY);
+                        //auto temp = tf_world2BaseFootprint.block<3,3>(0,0);
+                        //Eigen::Matrix3f tfROT = temp.cast<float>();    // Cast to float
+                        //Eigen::Vector3f rpy = tf_utils::rot2EulerZYX(tfROT);
+
+                        // Publish observation (sigma value and ID seen)
+                        // Only publish if robot is within 2.5 meters of aruco marker (seeing instability in sigma calculation at long distances)
+                        if (sqrt( pow(tf_camOptical2ARFrame(0,3),2) + pow(tf_camOptical2ARFrame(1,3),2) + pow(tf_camOptical2ARFrame(2,3),2)) <= 2) {
+                            fp_msgs::msg::SigmaID sigmaID;
+                            sigmaID.sigma = atan2(  (tf_world2BaseFootprint(1,3) - tf_orig2AR[markerIds[0]](1,3)),     // Robot Y Coordinate - Aruco Marker Y Coordinate 
+                                                    (tf_world2BaseFootprint(0,3) - tf_orig2AR[markerIds[0]](0,3)));    // Robot X Coordinate - Aruco Marker X Coordinate
+                            sigmaID.id = markerIds[0];
+                            sigmaPub_->publish(sigmaID);
+                        }
                     }
                 }
             }
@@ -146,6 +148,8 @@ private:
                                         0, 1, 0, 0,
                                         0, 0, 1, -0.01,
                                         0, 0, 0, 1;
+
+        tf_camOptical2BaseFootprint = tf_camOptical2CamRGB * tf_camRBG2CamLink * tf_camLink2BaseLink * tf_baseLink2BaseFootprint;
     }
 
 public:
@@ -164,7 +168,7 @@ public:
                                     this, 
                                     std::placeholders::_1));
 
-        pointRPYPub_ = this->create_publisher<fp_msgs::msg::PointRPY>("/pointRPY", 10);
+        sigmaPub_ = this->create_publisher<fp_msgs::msg::SigmaID>("/SigmaID", 10);
 
     }
 

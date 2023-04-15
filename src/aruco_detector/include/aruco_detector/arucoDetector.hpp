@@ -3,11 +3,11 @@
 #include <optional>
 
 #include "rclcpp/rclcpp.hpp"
-#include "image_transport/image_transport.h"
+#include "image_transport/image_transport.hpp"
 #include <cv_bridge/cv_bridge.h>
 #include "sensor_msgs/image_encodings.hpp"
 #include "sensor_msgs/msg/camera_info.hpp"
-#include "fp_msgs/msg/point_rpy.hpp"
+#include "fp_msgs/msg/sigma_id.hpp"
 #include <eigen3/Eigen/Dense>
 #include <tf_utils.hpp>
 
@@ -32,3 +32,4 @@ Eigen::MatrixXd tf_camLink2BaseLink(4,4);
 Eigen::MatrixXd tf_camOptical2CamRGB(4,4);
 Eigen::MatrixXd tf_baseLink2BaseFootprint(4,4);
 Eigen::MatrixXd tf_world2BaseFootprint(4,4);
+Eigen::MatrixXd tf_camOptical2BaseFootprint(4,4);
