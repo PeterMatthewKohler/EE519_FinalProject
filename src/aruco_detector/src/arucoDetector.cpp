@@ -3,7 +3,6 @@
 class ArucoDetector : public rclcpp::Node {
 private:
     const std::string OPENCV_WINDOW = "Image window";
-//    image_transport::ImageTransport it;
     image_transport::Subscriber sub_;
     image_transport::Publisher pub_;
     rclcpp::Subscription<sensor_msgs::msg::CameraInfo>::SharedPtr camera_info_sub_;

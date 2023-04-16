@@ -102,7 +102,7 @@ namespace state_estimation  // this should match the project name in CMakeLists
                 0,  pow(0.01, 2),   0,
                 0,  0,  pow(0.01, 2);
 
-        R = 0.12; // pow(0.007,2) -> Gaussian Noise on camera pixel color channel values. Honestly not sure if this applies at all.
+        R = 0.285; // 0.285 giving very solid values in testing
     }
 
     void EKFNode::extendedKalmanFilter()
@@ -142,13 +142,6 @@ namespace state_estimation  // this should match the project name in CMakeLists
             state.position.y = x_k_plus(1,0);
             state.yaw = x_k_plus(2,0);
             ekfStatePub_->publish(state);
-            
-            // DEBUGGING----------------------
-            std::cout << "\nx_k_plus: \n";
-            std::cout << x_k_plus;
-            std::cout << "\n\nP_k_plus: \n";
-            std::cout << P_k_plus << "\n";
-            std::cout << "=======================\n";
         }
     }
 

@@ -86,7 +86,7 @@ private:
     // ================================
 
     //! @brief Timestep of EKF
-    int Ts_msec = 50;
+    int Ts_msec = 33;
     float Ts_sec = Ts_msec*0.001;
 
     //! @brief Wheel separation of waffle robot (meters)
