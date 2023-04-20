@@ -190,7 +190,7 @@ void GazeboRosJointStateNoisePublisherPrivate::OnUpdate(const gazebo::common::Up
     // construct a trivial random generator engine from a time-based seed:
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     const double mean = 0;
-    const double std_dev = 0.01;
+    const double std_dev = 0.1;
     std::default_random_engine generator(seed);
     std::normal_distribution<double> dist(mean, std_dev);
 

@@ -1,5 +1,5 @@
 // ----------------------------------------------
-/// @file   ekf_main.cpp
+/// @file   ekf_impl.cpp
 /// @author Peter (peter_kohler@gmail.com)
 /// @brief  Node to perform state estimation of the robot 
 /// using an Extended Kalman Filter
@@ -93,16 +93,17 @@ namespace state_estimation  // this should match the project name in CMakeLists
         tf_orig2AR.push_back(temp);
 
         // Set initial state based on initialization params for EKF Launch file
-        x_k_plus << -2.0, -0.5, 0;
+        x_k_plus << -2.1, -0.6, 0;
         // Set initial state covariance matrix                           
         P_k_plus.setIdentity();
         P_k_plus *= 1e-1;
         // Set noise matrix Q based on params joint encoder sensors
-        Q <<    pow(0.01,2),    0,  0,
-                0,  pow(0.01, 2),   0,
-                0,  0,  pow(0.01, 2);
+        Q <<    0.005,    0,  0,
+                0,  0.005,   0,
+                0,  0,  2.178E-5; // 0.005
 
-        R = 0.285; // 0.285 giving very solid values in testing
+        R = 3; // Needs to be tuned after setting wheel encoder noise variance to 0.01
+               // 3 produced pretty solid results
     }
 
     void EKFNode::extendedKalmanFilter()

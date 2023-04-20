@@ -528,6 +528,7 @@ install(TARGETS
     gazebo_ros_gps_sensor
     gazebo_ros_joint_pose_trajectory
     gazebo_ros_joint_state_publisher
+    gazebo_ros_joint_state_noise_publisher
     gazebo_ros_planar_move
     gazebo_ros_projector
     gazebo_ros_ray_sensor
