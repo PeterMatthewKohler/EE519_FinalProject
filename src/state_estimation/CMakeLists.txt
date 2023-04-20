@@ -29,9 +29,16 @@ set(EKF_Node_SRC
   src/ekf_impl.cpp
   src/ekf_main.cpp)
 
+set(UKF_Node_SRC
+  src/ukf_impl.cpp
+  src/ukf_main.cpp)
+
 # List headers
 set(EKF_HEADERS
   include/state_estimation/ekf_impl.hpp)
+
+set(UKF_HEADERS
+  include/state_estimation/ukf_impl.hpp)
 
 # Require that dependencies from package.xml be available
 ament_auto_find_build_dependencies(REQUIRED
@@ -44,8 +51,13 @@ ament_auto_add_executable(ekfNode
     ${EKF_Node_SRC}
 )
 
+ament_auto_add_executable(ukfNode
+    ${UKF_Node_SRC}
+)
+
 install(TARGETS
 ekfNode
+ukfNode
 DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY launch
