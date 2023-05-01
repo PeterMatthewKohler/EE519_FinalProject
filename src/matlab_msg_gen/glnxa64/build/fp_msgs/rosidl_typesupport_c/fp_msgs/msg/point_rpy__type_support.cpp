@@ -1,0 +1,96 @@
+// generated from rosidl_typesupport_c/resource/idl__type_support.cpp.em
+// with input from fp_msgs:msg/PointRPY.idl
+// generated code does not contain a copyright notice
+
+#include "cstddef"
+#include "rosidl_runtime_c/message_type_support_struct.h"
+#include "fp_msgs/msg/rosidl_typesupport_c__visibility_control.h"
+#include "fp_msgs/msg/detail/point_rpy__struct.h"
+#include "rosidl_typesupport_c/identifier.h"
+#include "rosidl_typesupport_c/message_type_support_dispatch.h"
+#include "rosidl_typesupport_c/type_support_map.h"
+#include "rosidl_typesupport_c/visibility_control.h"
+#include "rosidl_typesupport_interface/macros.h"
+
+namespace fp_msgs
+{
+
+namespace msg
+{
+
+namespace rosidl_typesupport_c
+{
+
+typedef struct _PointRPY_type_support_ids_t
+{
+  const char * typesupport_identifier[2];
+} _PointRPY_type_support_ids_t;
+
+static const _PointRPY_type_support_ids_t _PointRPY_message_typesupport_ids = {
+  {
+    "rosidl_typesupport_fastrtps_c",  // ::rosidl_typesupport_fastrtps_c::typesupport_identifier,
+    "rosidl_typesupport_introspection_c",  // ::rosidl_typesupport_introspection_c::typesupport_identifier,
+  }
+};
+
+typedef struct _PointRPY_type_support_symbol_names_t
+{
+  const char * symbol_name[2];
+} _PointRPY_type_support_symbol_names_t;
+
+#define STRINGIFY_(s) #s
+#define STRINGIFY(s) STRINGIFY_(s)
+
+static const _PointRPY_type_support_symbol_names_t _PointRPY_message_typesupport_symbol_names = {
+  {
+    STRINGIFY(ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_fastrtps_c, fp_msgs, msg, PointRPY)),
+    STRINGIFY(ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, fp_msgs, msg, PointRPY)),
+  }
+};
+
+typedef struct _PointRPY_type_support_data_t
+{
+  void * data[2];
+} _PointRPY_type_support_data_t;
+
+static _PointRPY_type_support_data_t _PointRPY_message_typesupport_data = {
+  {
+    0,  // will store the shared library later
+    0,  // will store the shared library later
+  }
+};
+
+static const type_support_map_t _PointRPY_message_typesupport_map = {
+  2,
+  "fp_msgs",
+  &_PointRPY_message_typesupport_ids.typesupport_identifier[0],
+  &_PointRPY_message_typesupport_symbol_names.symbol_name[0],
+  &_PointRPY_message_typesupport_data.data[0],
+};
+
+static const rosidl_message_type_support_t PointRPY_message_type_support_handle = {
+  rosidl_typesupport_c__typesupport_identifier,
+  reinterpret_cast<const type_support_map_t *>(&_PointRPY_message_typesupport_map),
+  rosidl_typesupport_c__get_message_typesupport_handle_function,
+};
+
+}  // namespace rosidl_typesupport_c
+
+}  // namespace msg
+
+}  // namespace fp_msgs
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+ROSIDL_TYPESUPPORT_C_EXPORT_fp_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_c, fp_msgs, msg, PointRPY)() {
+  return &::fp_msgs::msg::rosidl_typesupport_c::PointRPY_message_type_support_handle;
+}
+
+#ifdef __cplusplus
+}
+#endif

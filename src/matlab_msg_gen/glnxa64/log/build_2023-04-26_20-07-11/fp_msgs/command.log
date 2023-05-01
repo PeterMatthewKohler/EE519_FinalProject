@@ -1,0 +1,4 @@
+Invoking command in '/home/peter/Documents/EENG_519/Final_Project/src/matlab_msg_gen/glnxa64/build/fp_msgs': PS1=(venv) /usr/bin/cmake --build /home/peter/Documents/EENG_519/Final_Project/src/matlab_msg_gen/glnxa64/build/fp_msgs -- -j16 -l16
+Invoked command in '/home/peter/Documents/EENG_519/Final_Project/src/matlab_msg_gen/glnxa64/build/fp_msgs' returned '0': PS1=(venv) /usr/bin/cmake --build /home/peter/Documents/EENG_519/Final_Project/src/matlab_msg_gen/glnxa64/build/fp_msgs -- -j16 -l16
+Invoking command in '/home/peter/Documents/EENG_519/Final_Project/src/matlab_msg_gen/glnxa64/build/fp_msgs': PS1=(venv) /usr/bin/cmake --install /home/peter/Documents/EENG_519/Final_Project/src/matlab_msg_gen/glnxa64/build/fp_msgs
+Invoked command in '/home/peter/Documents/EENG_519/Final_Project/src/matlab_msg_gen/glnxa64/build/fp_msgs' returned '0': PS1=(venv) /usr/bin/cmake --install /home/peter/Documents/EENG_519/Final_Project/src/matlab_msg_gen/glnxa64/build/fp_msgs

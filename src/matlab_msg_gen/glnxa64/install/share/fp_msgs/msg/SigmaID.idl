@@ -1,0 +1,17 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from fp_msgs/msg/SigmaID.msg
+// generated code does not contain a copyright notice
+
+
+module fp_msgs {
+  module msg {
+    @verbatim (language="comment", text=
+      " Message Containing the Calculated Sigma (atan2 angle calculation between Aruco Marker and Robot)" "\n"
+      " and the Marker ID of the detected Aruco marker")
+    struct SigmaID {
+      double sigma;
+
+      int8 id;
+    };
+  };
+};
