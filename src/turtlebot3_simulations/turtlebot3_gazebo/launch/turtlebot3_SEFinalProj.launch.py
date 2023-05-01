@@ -29,7 +29,7 @@ def generate_launch_description():
     launch_file_dir = os.path.join(get_package_share_directory('turtlebot3_gazebo'), 'launch')
     pkg_gazebo_ros = get_package_share_directory('gazebo_ros')
     aruco_detector_ros_launch_dir = os.path.join(get_package_share_directory('aruco_detector'), 'launch')
-    ekf_ros_launch_dir = os.path.join(get_package_share_directory('state_estimation'),'launch')
+    se_ros_launch_dir = os.path.join(get_package_share_directory('state_estimation'),'launch')
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
     x_pose = LaunchConfiguration('x_pose', default='-2.0')
@@ -79,7 +79,13 @@ def generate_launch_description():
 
     ekf_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(ekf_ros_launch_dir, 'ekfNode.launch.py')
+            os.path.join(se_ros_launch_dir, 'ekfNode.launch.py')
+        ),
+    )
+
+    ukf_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(se_ros_launch_dir, 'ukfNode.launch.py')
         ),
     )
 
@@ -92,5 +98,6 @@ def generate_launch_description():
     ld.add_action(spawn_turtlebot_cmd)
     ld.add_action(aruco_detector_cmd)
     ld.add_action(ekf_cmd)
+    ld.add_action(ukf_cmd)
 
     return ld
