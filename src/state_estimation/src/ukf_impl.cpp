@@ -44,7 +44,6 @@ namespace state_estimation  // this should match the project name in CMakeLists
     void UKFNode::SigmaIDCallback(const fp_msgs::msg::SigmaID::SharedPtr msg)
     {
         sigmaID_.emplace(*msg);
-        //RCLCPP_INFO(this->get_logger(), "Message received:\nsigma: %f, ID: %i", sigmaID_->sigma, sigmaID_->id);
     }
 
     void UKFNode::JointStatesSubscriberCallback(const sensor_msgs::msg::JointState::SharedPtr msg)
@@ -93,7 +92,7 @@ namespace state_estimation  // this should match the project name in CMakeLists
         tf_orig2AR.push_back(temp);
 
         // Set initial state based on initialization params for UKF Launch file
-        x_k_plus << -2.0, -0.5, 0;
+        x_k_plus << -2.2, -0.55, 0.0; //-2.0, -0.5, 0;
         
         for (int i = 0; i < 3; i++){
             Eigen::Matrix<float, 3, 1> temp = Eigen::MatrixXf::Zero(3,1);
@@ -105,11 +104,11 @@ namespace state_estimation  // this should match the project name in CMakeLists
         P_k_plus.setIdentity();
         P_k_plus *= 1e-1;
         // Set noise matrix Q based on params joint encoder sensors
-        Q <<    pow(0.01,2),    0,  0,
-                0,  pow(0.01, 2),   0,
-                0,  0,  pow(0.01, 2);
+        Q <<    0.001,    0,  0,    // 0.07
+                0,  0.001,   0,
+                0,  0,  2.178E-5; // 2.178E-5
 
-        R = 0.285; // 0.285 giving very solid values in testing
+        R = 0.05; // 0.1(?) giving very solid values in tests
     }
 
     void UKFNode::unscentedKalmanFilter()
@@ -118,7 +117,7 @@ namespace state_estimation  // this should match the project name in CMakeLists
         if (jointStates_) {
             // Run a lock so our input and observation data can't be overwritten mid function call
             std::scoped_lock lock(m);   // Lock is removed as soon as the function execution is done
-            
+
             // ---------------- Time Update (entering with x_k_plus and P_k_plus)
             // Perform the Cholsky decomposition
             Eigen::Matrix<float, 3, 3> M = P_k_plus.llt().matrixL();
@@ -216,30 +215,9 @@ namespace state_estimation  // this should match the project name in CMakeLists
         return output;
     }
 
-    Eigen::Matrix<float, 3, 3> UKFNode::input_fx_gradient(Eigen::Matrix<float, 3, 1> x_k_plus, sensor_msgs::msg::JointState jointStates)
-    {
-        float vl = jointStates.velocity[0]*0.033;   // Wheel radius is 33mm
-        float vr = jointStates.velocity[1]*0.033;
-        // We are using the approximation gradient of f_x = I + grad_f_x_continuous*Ts
-        Eigen::Matrix<float, 3, 3> output = Eigen::MatrixXf::Zero(3,3);
-        output(0,2) = (-sin(x_k_plus(2,0))*(vl + vr)/2);
-        output(1,2) = (cos(x_k_plus(2,0))*(vl + vr)/2);
-
-        return output;
-    }
-
     float UKFNode::output_gx(Eigen::Matrix<float, 3, 1> x_k_minus, Eigen::MatrixXf aruco_loc)
     {
         return atan2( (x_k_minus(1,0) - aruco_loc(1,3)), (x_k_minus(0,0) - aruco_loc(0,3)) );
-    }
-
-    Eigen::Matrix<float, 1, 3> UKFNode::output_gx_gradient(Eigen::Matrix<float, 3, 1> x_k_plus, Eigen::MatrixXf aruco_loc)
-    {
-        Eigen::Matrix<float, 1, 3> output = Eigen::MatrixXf::Zero(1,3);
-        output(0,0) = (aruco_loc(1,3) - x_k_plus(1,0)) / ( pow((x_k_plus(0,0) - aruco_loc(0,3)),2) + pow((x_k_plus(1,0) - aruco_loc(1,3)),2) );
-        output(0,1) = (x_k_plus(0,0) - aruco_loc(0,3)) / ( pow((x_k_plus(0,0) - aruco_loc(0,3)),2) + pow((x_k_plus(1,0) - aruco_loc(1,3)),2) );
-
-        return output;
     }
 
 }

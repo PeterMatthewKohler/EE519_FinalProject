@@ -88,7 +88,7 @@ private:
     // ================================
 
     //! @brief Timestep of UKF
-    int Ts_msec = 33;
+    int Ts_msec = 33; // 33 -> 30 HZ, 20 -> 50 Hz
     float Ts_sec = Ts_msec*0.001;
 
     //! @brief Wheel separation of waffle robot (meters)

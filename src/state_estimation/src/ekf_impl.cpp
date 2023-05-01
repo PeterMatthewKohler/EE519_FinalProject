@@ -44,7 +44,6 @@ namespace state_estimation  // this should match the project name in CMakeLists
     void EKFNode::SigmaIDCallback(const fp_msgs::msg::SigmaID::SharedPtr msg)
     {
         sigmaID_.emplace(*msg);
-        //RCLCPP_INFO(this->get_logger(), "Message received:\nsigma: %f, ID: %i", sigmaID_->sigma, sigmaID_->id);
     }
 
     void EKFNode::JointStatesSubscriberCallback(const sensor_msgs::msg::JointState::SharedPtr msg)
@@ -93,17 +92,17 @@ namespace state_estimation  // this should match the project name in CMakeLists
         tf_orig2AR.push_back(temp);
 
         // Set initial state based on initialization params for EKF Launch file
-        x_k_plus << -2.0, -0.5, 0;
+        x_k_plus << -2.2, -0.55, 0.0; //-2.0, -0.5, 0;
         // Set initial state covariance matrix                           
         P_k_plus.setIdentity();
         P_k_plus *= 1e-1;
         // Set noise matrix Q based on params joint encoder sensors
-        Q <<    0.005,    0,  0,
-                0,  0.005,   0,
-                0,  0,  2.178E-5; // 0.005
+        Q <<    0.001,    0,  0,    // 0.001
+                0,  0.001,   0,
+                0,  0,  2.178E-5; // 2.178E-5
 
-        R = 3; // Needs to be tuned after setting wheel encoder noise variance to 0.01
-               // 3 produced pretty solid results
+        R = 15; // Needs to be tuned after setting wheel encoder noise variance to 0.01
+               // 15 produced pretty solid results
     }
 
     void EKFNode::extendedKalmanFilter()
