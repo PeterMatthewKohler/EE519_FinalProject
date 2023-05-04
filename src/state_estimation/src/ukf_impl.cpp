@@ -92,7 +92,7 @@ namespace state_estimation  // this should match the project name in CMakeLists
         tf_orig2AR.push_back(temp);
 
         // Set initial state based on initialization params for UKF Launch file
-        x_k_plus << -2.2, -0.55, 0.0; //-2.0, -0.5, 0;
+        x_k_plus << -2.2, -0.55, 0.0; //Actual starting state: -2.0, -0.5, 0;
         
         for (int i = 0; i < 3; i++){
             Eigen::Matrix<float, 3, 1> temp = Eigen::MatrixXf::Zero(3,1);

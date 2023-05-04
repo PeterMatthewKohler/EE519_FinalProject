@@ -58,7 +58,7 @@ private:
                         //Eigen::Vector3f rpy = tf_utils::rot2EulerZYX(tfROT);
 
                         // Publish observation (sigma value and ID seen)
-                        // Only publish if robot is within 2.5 meters of aruco marker (seeing instability in sigma calculation at long distances)
+                        // Only publish if robot is within 2 meters of aruco marker (seeing instability in sigma calculation at long distances)
                         if (sqrt( pow(tf_camOptical2ARFrame(0,3),2) + pow(tf_camOptical2ARFrame(1,3),2) + pow(tf_camOptical2ARFrame(2,3),2)) <= 2) {
                             fp_msgs::msg::SigmaID sigmaID;
                             sigmaID.sigma = atan2(  (tf_world2BaseFootprint(1,3) - tf_orig2AR[markerIds[0]](1,3)),     // Robot Y Coordinate - Aruco Marker Y Coordinate 

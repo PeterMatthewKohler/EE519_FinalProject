@@ -92,7 +92,7 @@ namespace state_estimation  // this should match the project name in CMakeLists
         tf_orig2AR.push_back(temp);
 
         // Set initial state based on initialization params for EKF Launch file
-        x_k_plus << -2.2, -0.55, 0.0; //-2.0, -0.5, 0;
+        x_k_plus << -2.2, -0.55, 0.0; //Actual starting state: -2.0, -0.5, 0;
         // Set initial state covariance matrix                           
         P_k_plus.setIdentity();
         P_k_plus *= 1e-1;
