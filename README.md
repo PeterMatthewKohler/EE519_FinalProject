@@ -24,7 +24,7 @@ The source code used to perform the simulation as well as the measurement/observ
 ## Build and Usage Instructions ##
 Follow the instructions at https://emanual.robotis.com/docs/en/platform/turtlebot3/quick-start/ using the "Foxy" installation commands at the top of the page. To install the ROS2 Galactic versions of all these packages, simply swap out the word "Foxy" with "Galactic". I haven't tested any of this on anything but ROS2 Galactic, so ensure your ROS2 installation is ROS2-Galactic.
 
-You'll also need to install the Eigen linear algebra library.
+You'll also need to install the Eigen linear algebra library, and build OpenCV version 4.2.0 from source.
 
 Source your ROS2 installation:\
 ```$ source /opt/ros/galactic/setup.bash```\
